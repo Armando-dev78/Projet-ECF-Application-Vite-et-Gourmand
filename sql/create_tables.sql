@@ -1,4 +1,4 @@
--- TABLE utilisateurs
+-- Table des utilisateurs de l'application
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE users (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- TABLE menus
+-- Menus proposés par l'entreprise (événementiels)
 CREATE TABLE menus (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(150) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE menus (
     stock_disponible INT NOT NULL DEFAULT 0
 );
 
--- TABLE plats
+-- Plats composant les menus
 CREATE TABLE plats (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(150) NOT NULL,
@@ -29,13 +29,13 @@ CREATE TABLE plats (
     prix DECIMAL(8,2) NOT NULL
 );
 
--- TABLE allergenes
+-- Référentiel des allergènes
 CREATE TABLE allergenes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100) NOT NULL
 );
 
--- TABLE menu_plat (relation N:N)
+-- Association menus / plats (relation N:N)
 CREATE TABLE menu_plat (
     menu_id INT NOT NULL,
     plat_id INT NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE menu_plat (
     FOREIGN KEY (plat_id) REFERENCES plats(id) ON DELETE CASCADE
 );
 
--- TABLE plat_allergene (relation N:N)
+-- Association plats / allergènes (relation N:N)
 CREATE TABLE plat_allergene (
     plat_id INT NOT NULL,
     allergene_id INT NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE plat_allergene (
     FOREIGN KEY (allergene_id) REFERENCES allergenes(id) ON DELETE CASCADE
 );
 
--- TABLE commandes
+-- Commandes passées par les utilisateurs
 CREATE TABLE commandes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE commandes (
     FOREIGN KEY (menu_id) REFERENCES menus(id)
 );
 
--- TABLE suivi des commandes
+-- Historique des statuts d'une commande
 CREATE TABLE suivi_commandes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     commande_id INT NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE suivi_commandes (
     FOREIGN KEY (commande_id) REFERENCES commandes(id) ON DELETE CASCADE
 );
 
--- TABLE avis clients
+-- Avis laissés par les clients après livraison
 CREATE TABLE avis (
     id INT AUTO_INCREMENT PRIMARY KEY,
     commande_id INT NOT NULL,

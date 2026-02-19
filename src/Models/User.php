@@ -16,7 +16,7 @@ class User
     }
 
     /**
-     * Créer un utilisateur
+     * Création d'un utilisateur
      */
     public function create(
         string $nom,
@@ -25,8 +25,10 @@ class User
         string $password,
         string $role = 'utilisateur'
     ): bool {
-        $sql = "INSERT INTO users (nom, prenom, email, password, role)
-                VALUES (:nom, :prenom, :email, :password, :role)";
+        $sql = "
+            INSERT INTO users (nom, prenom, email, password, role)
+            VALUES (:nom, :prenom, :email, :password, :role)
+        ";
 
         $stmt = $this->db->prepare($sql);
 
@@ -40,11 +42,12 @@ class User
     }
 
     /**
-     * Récupérer un utilisateur par email
+     * Récupération d'un utilisateur par email
      */
     public function findByEmail(string $email): ?array
     {
         $sql = "SELECT * FROM users WHERE email = :email";
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['email' => $email]);
 

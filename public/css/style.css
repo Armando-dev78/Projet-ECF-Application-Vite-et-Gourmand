@@ -1,0 +1,231 @@
+/* ================= CHARTE GRAPHIQUE ================= */
+
+body {
+    background-color: #FFFFFF;
+    color: #444444;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+}
+
+/* Header principal */
+header {
+    background-color: #A64040;
+    color: #FFFFFF;
+}
+
+/* Titres */
+h1 {
+    font-family: 'Moon Dance', cursive;
+    font-size: 50px;
+}
+
+h2 {
+    font-family: 'Moon Dance', cursive;
+    font-size: 36px;
+}
+
+/* Sections */
+section {
+    background-color: #F5E5E5;
+    padding: 30px 20px;
+    margin: 40px auto;
+    max-width: 1000px;
+    border-radius: 8px;
+}
+
+footer {
+    background-color: #A64040;
+    color: #360000;
+    padding: 25px 30px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 18px;
+}
+
+.footer-links a {
+    color: #360000;
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: 600;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.menu-card {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.menu-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.menu-content {
+    padding: 15px;
+}
+
+.btn-details {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.avis {
+    border-left: 4px solid #333;
+    padding-left: 10px;
+    margin-bottom: 15px;
+}
+
+.btn-menus {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#carousel {
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+#carousel img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: none;
+}
+
+#carousel img.active {
+    display: block;
+}
+
+/* ================= MENU DE NAVIGATION ================= */
+
+.main-header {
+    background-color: #A64040;
+    padding: 20px 30px;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h1 {
+    font-family: 'Moon Dance', cursive;
+    font-size: 42px;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.main-nav {
+    display: flex;
+    gap: 25px;
+}
+
+.main-nav a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.main-nav a:hover {
+    text-decoration: underline;
+}
+
+.logo p {
+    margin: 5px 0 0;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* ================= AUTH FORM ================= */
+
+.form-container {
+    max-width: 500px;
+    margin: 60px auto;
+    background-color: #F5E5E5;
+    padding: 40px;
+    border-radius: 8px;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-form input,
+.auth-form textarea {
+    padding: 12px;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.auth-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.auth-form button {
+    padding: 12px;
+    background-color: #A64040;
+    color: #FFFFFF;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.auth-form button:hover {
+    background-color: #8d3535;
+}
+
+.form-errors {
+    color: red;
+    margin-bottom: 15px;
+}
+
+/* ===== Correction formulaire inscription ===== */
+
+.auth-form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px;
+    width: 100%;
+}
+
+.form-container {
+    max-width: 500px;
+    margin: 60px auto;
+    background-color: #F5E5E5;
+    padding: 40px;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
