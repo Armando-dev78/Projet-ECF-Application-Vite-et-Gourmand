@@ -25,58 +25,58 @@ $menu_id = (int) $_GET['menu_id'];
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $action = $_POST['action'] ?? '';
 }
-    $nb_personnes = (int) $_POST['nb_personnes'];
-    $date_prestation = $_POST['date_prestation'];
-    $heure_livraison = $_POST['heure_livraison'];
-    $adresse_livraison = trim($_POST['adresse_livraison']);
-    $ville = trim($_POST['ville']);
+$nb_personnes = (int) $_POST['nb_personnes'];
+$date_prestation = $_POST['date_prestation'];
+$heure_livraison = $_POST['heure_livraison'];
+$adresse_livraison = trim($_POST['adresse_livraison']);
+$ville = trim($_POST['ville']);
+$distance_km = isset($_POST['distance_km']) ? (float) $_POST['distance_km'] : 0;
+
+
+// Récupération du menu
+$stmtMenu = $db->prepare("SELECT * FROM menus WHERE id = ?");
+$stmtMenu->execute([$menu_id]);
+$menu = $stmtMenu->fetch(PDO::FETCH_ASSOC);
+
+if (!$menu) {
+    $errors[] = "Menu introuvable.";
+} elseif ($menu['stock_disponible'] <= 0) {
+    $errors[] = "Ce menu est actuellement indisponible (stock épuisé).";
+} elseif ($nb_personnes < $menu['nb_personnes_min']) {
+    $errors[] = "Nombre minimum de personnes requis : " . $menu['nb_personnes_min'] . " personnes.";
+} else {
+
+    // ================= RÈGLES MÉTIER ECF =================
+
+    // Calcul du prix de base
+    $prix_base = $menu['prix_par_personne'] * $nb_personnes;
+
+    // Application réduction 10% si +5 personnes minimum
+    $reduction = 0;
+    if ($nb_personnes >= ($menu['nb_personnes_min'] + 5)) {
+        $reduction = $prix_base * 0.10;
+    }
+
+    // ================= CALCUL LIVRAISON =================
+
+    // Règle ECF :
+    // 5 € fixes + 0.59 €/km si hors Bordeaux
+
     $distance_km = isset($_POST['distance_km']) ? (float) $_POST['distance_km'] : 0;
 
+    $livraison = 0;
 
-    // Récupération du menu
-    $stmtMenu = $db->prepare("SELECT * FROM menus WHERE id = ?");
-    $stmtMenu->execute([$menu_id]);
-    $menu = $stmtMenu->fetch(PDO::FETCH_ASSOC);
+    if (strtolower($ville) !== 'bordeaux') {
+        $livraison = 5 + (0.59 * $distance_km);
+    }
 
-    if (!$menu) {
-        $errors[] = "Menu introuvable.";
-    } elseif ($menu['stock_disponible'] <= 0) {
-        $errors[] = "Ce menu est actuellement indisponible (stock épuisé).";
-    } elseif ($nb_personnes < $menu['nb_personnes_min']) {
-        $errors[] = "Nombre minimum de personnes requis : " . $menu['nb_personnes_min'] . " personnes.";
-    } else {
+    // ================= TOTAL FINAL =================
 
-        // ================= RÈGLES MÉTIER ECF =================
-
-        // Calcul du prix de base
-        $prix_base = $menu['prix_par_personne'] * $nb_personnes;
-
-        // Application réduction 10% si +5 personnes minimum
-        $reduction = 0;
-        if ($nb_personnes >= ($menu['nb_personnes_min'] + 5)) {
-            $reduction = $prix_base * 0.10;
-        }
-
-        // ================= CALCUL LIVRAISON =================
-
-        // Règle ECF :
-        // 5 € fixes + 0.59 €/km si hors Bordeaux
-
-        $distance_km = isset($_POST['distance_km']) ? (float) $_POST['distance_km'] : 0;
-
-        $livraison = 0;
-
-        if (strtolower($ville) !== 'bordeaux') {
-            $livraison = 5 + (0.59 * $distance_km);
-        }
-
-        // ================= TOTAL FINAL =================
-
-        $total = $prix_base - $reduction + $livraison;
+    $total = $prix_base - $reduction + $livraison;
 
 
-        // Insertion commande
-        if ($action === 'valider') {
+    // Insertion commande
+    if ($action === 'valider') {
         $stmt = $db->prepare("
             INSERT INTO commandes 
             (user_id, menu_id, nb_personnes, date_prestation, heure_livraison, adresse_livraison, ville, total, reduction)
@@ -144,16 +144,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <p style="color:green;">Commande enregistrée avec succès !</p>
         <?php endif; ?>
 
-    <?php if (isset($total) && $action === 'calculer'): ?>
-        <div style="background:#f4f4f4;padding:15px;margin-bottom:20px;border-radius:8px;">
-        <h3>Détail du prix :</h3>
-        <p>Prix de base : <?= number_format($prix_base, 2) ?> €</p>
-        <p>Réduction : -<?= number_format($reduction, 2) ?> €</p>
-        <p>Livraison : <?= number_format($livraison, 2) ?> €</p>
-        <hr>
-        <strong>Total : <?= number_format($total, 2) ?> €</strong>
-        </div>
-    <?php endif; ?>
+        <?php if (isset($total) && $action === 'calculer'): ?>
+            <div style="background:#f4f4f4;padding:15px;margin-bottom:20px;border-radius:8px;">
+                <h3>Détail du prix :</h3>
+                <p>Prix de base : <?= number_format($prix_base, 2) ?> €</p>
+                <p>Réduction : -<?= number_format($reduction, 2) ?> €</p>
+                <p>Livraison : <?= number_format($livraison, 2) ?> €</p>
+                <hr>
+                <strong>Total : <?= number_format($total, 2) ?> €</strong>
+            </div>
+        <?php endif; ?>
 
         <form method="POST" class="auth-form">
 
