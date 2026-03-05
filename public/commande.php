@@ -24,14 +24,14 @@ $menu_id = (int) $_GET['menu_id'];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $action = $_POST['action'] ?? '';
-}
-$nb_personnes = (int) $_POST['nb_personnes'];
-$date_prestation = $_POST['date_prestation'];
-$heure_livraison = $_POST['heure_livraison'];
-$adresse_livraison = trim($_POST['adresse_livraison']);
-$ville = trim($_POST['ville']);
-$distance_km = isset($_POST['distance_km']) ? (float) $_POST['distance_km'] : 0;
 
+    $nb_personnes = (int) $_POST['nb_personnes'];
+    $date_prestation = $_POST['date_prestation'];
+    $heure_livraison = $_POST['heure_livraison'];
+    $adresse_livraison = trim($_POST['adresse_livraison']);
+    $ville = trim($_POST['ville']);
+    $distance_km = isset($_POST['distance_km']) ? (float) $_POST['distance_km'] : 0;
+}
 
 // Récupération du menu
 $stmtMenu = $db->prepare("SELECT * FROM menus WHERE id = ?");
