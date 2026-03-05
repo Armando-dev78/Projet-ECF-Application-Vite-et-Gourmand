@@ -35,6 +35,9 @@ session_start();
                     <a href="login.php">Connexion</a>
                 <?php else: ?>
                     <a href="mes_commandes.php">Mes commandes</a>
+                    <?php if ($_SESSION['user']['role'] === 'employe'): ?>
+                        <a href="employe/commandes_employe.php">Commandes clients</a>
+                    <?php endif; ?>
                     <a href="logout.php">Déconnexion</a>
                 <?php endif; ?>
             </nav>

@@ -22,6 +22,14 @@ if (!isset($_GET['menu_id'])) {
 
 $menu_id = (int) $_GET['menu_id'];
 
+$nb_personnes = 0;
+$date_prestation = '';
+$heure_livraison = '';
+$adresse_livraison = '';
+$ville = '';
+$distance_km = 0;
+$action = '';
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $action = $_POST['action'] ?? '';
 
