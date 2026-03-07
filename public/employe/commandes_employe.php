@@ -14,20 +14,20 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'employe') {
 $database = new Database();
 $db = $database->getConnection();
 
-        /* ================= MISE À JOUR DU STATUT ================= */
+/* ================= MISE À JOUR DU STATUT ================= */
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-            $commande_id = (int) $_POST["commande_id"];
-            $nouveau_statut = $_POST["statut"];
+    $commande_id = (int) $_POST["commande_id"];
+    $nouveau_statut = $_POST["statut"];
 
-            $stmtUpdate = $db->prepare("
+    $stmtUpdate = $db->prepare("
         INSERT INTO suivi_commandes (commande_id, statut)
         VALUES (?, ?)
     ");
 
-            $stmtUpdate->execute([$commande_id, $nouveau_statut]);
-        }
+    $stmtUpdate->execute([$commande_id, $nouveau_statut]);
+}
 
 // ================= RÉCUPÉRATION DE TOUTES LES COMMANDES =================
 $stmt = $db->query("
@@ -97,19 +97,19 @@ LIMIT 1
                     <p><strong>Date prestation :</strong> <?= htmlspecialchars($commande['date_prestation']) ?></p>
 
                     <p><strong>Statut :</strong> <?= htmlspecialchars($statut) ?></p>
-                    
+
                     <form method="POST" style="margin-top:10px;">
 
                         <input type="hidden" name="commande_id" value="<?= $commande['id'] ?>">
 
                         <select name="statut">
 
-                            <option value="en_attente">En attente</option>
-                            <option value="acceptee">Acceptée</option>
-                            <option value="en_preparation">En préparation</option>
-                            <option value="en_livraison">En livraison</option>
-                            <option value="livree">Livrée</option>
-                            <option value="annulee">Annulée</option>
+                            <option value="en_attente" <?= $statut === 'en_attente' ? 'selected' : '' ?>>En attente</option>
+                            <option value="acceptee" <?= $statut === 'acceptee' ? 'selected' : '' ?>>Acceptée</option>
+                            <option value="en_preparation" <?= $statut === 'en_preparation' ? 'selected' : '' ?>>En préparation</option>
+                            <option value="en_livraison" <?= $statut === 'en_livraison' ? 'selected' : '' ?>>En livraison</option>
+                            <option value="livree" <?= $statut === 'livree' ? 'selected' : '' ?>>Livrée</option>
+                            <option value="annulee" <?= $statut === 'annulee' ? 'selected' : '' ?>>Annulée</option>
 
                         </select>
 
