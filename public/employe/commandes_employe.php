@@ -98,6 +98,28 @@ LIMIT 1
 
                     <p><strong>Statut :</strong> <?= htmlspecialchars($statut) ?></p>
 
+                    <?php
+                    $stmtHistorique = $db->prepare("
+    SELECT statut, date_statut
+    FROM suivi_commandes
+    WHERE commande_id = ?
+    ORDER BY date_statut ASC
+");
+                    $stmtHistorique->execute([$commande['id']]);
+                    $historique = $stmtHistorique->fetchAll(PDO::FETCH_ASSOC);
+                    ?>
+
+                    <p><strong>Historique :</strong></p>
+
+<ul style="margin-top:5px; margin-bottom:10px;">
+<?php foreach ($historique as $h): ?>
+    <li>
+        <?= date('d/m/Y H:i', strtotime($h['date_statut'])) ?>
+        → <?= htmlspecialchars($h['statut']) ?>
+    </li>
+<?php endforeach; ?>
+</ul>
+
                     <form method="POST" style="margin-top:10px;">
 
                         <input type="hidden" name="commande_id" value="<?= $commande['id'] ?>">
