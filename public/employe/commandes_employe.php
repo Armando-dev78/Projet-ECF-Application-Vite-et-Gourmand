@@ -21,12 +21,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $commande_id = (int) $_POST["commande_id"];
     $nouveau_statut = $_POST["statut"];
 
-    $stmtUpdate = $db->prepare("
-        INSERT INTO suivi_commandes (commande_id, statut)
-        VALUES (?, ?)
+    // récupérer le dernier statut enregistré
+    $stmtCheck = $db->prepare("
+        SELECT statut
+        FROM suivi_commandes
+        WHERE commande_id = ?
+        ORDER BY date_statut DESC
+        LIMIT 1
     ");
+    $stmtCheck->execute([$commande_id]);
+    $dernier_statut = $stmtCheck->fetchColumn();
 
-    $stmtUpdate->execute([$commande_id, $nouveau_statut]);
+    // on insère seulement si le statut change
+    if ($dernier_statut !== $nouveau_statut) {
+
+        $stmtUpdate = $db->prepare("
+            INSERT INTO suivi_commandes (commande_id, statut)
+            VALUES (?, ?)
+        ");
+
+        $stmtUpdate->execute([$commande_id, $nouveau_statut]);
+    }
 }
 
 // ================= RÉCUPÉRATION DE TOUTES LES COMMANDES =================

@@ -38,6 +38,9 @@ session_start();
                     <?php if ($_SESSION['user']['role'] === 'employe'): ?>
                         <a href="employe/commandes_employe.php">Commandes clients</a>
                     <?php endif; ?>
+                    <?php if ($_SESSION['user']['role'] === 'admin'): ?>
+                        <a href="admin/dashboard.php">Dashboard</a>
+                    <?php endif; ?>
                     <a href="logout.php">Déconnexion</a>
                 <?php endif; ?>
             </nav>
