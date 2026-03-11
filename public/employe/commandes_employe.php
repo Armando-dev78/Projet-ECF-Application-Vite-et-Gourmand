@@ -99,7 +99,7 @@ LIMIT 1
                 $statut = $stmtStatut->fetchColumn();
                 ?>
 
-                <div style="border:1px solid #ccc; padding:15px; margin-bottom:15px;">
+                <div class="commande-card">
 
                     <p><strong>Client :</strong> <?= htmlspecialchars($commande['prenom']) ?> <?= htmlspecialchars($commande['nom']) ?></p>
 
@@ -126,14 +126,14 @@ LIMIT 1
 
                     <p><strong>Historique :</strong></p>
 
-<ul style="margin-top:5px; margin-bottom:10px;">
-<?php foreach ($historique as $h): ?>
-    <li>
-        <?= date('d/m/Y H:i', strtotime($h['date_statut'])) ?>
-        → <?= htmlspecialchars($h['statut']) ?>
-    </li>
-<?php endforeach; ?>
-</ul>
+                    <ul style="margin-top:5px; margin-bottom:10px;">
+                        <?php foreach ($historique as $h): ?>
+                            <li>
+                                <?= date('d/m/Y H:i', strtotime($h['date_statut'])) ?>
+                                → <?= htmlspecialchars($h['statut']) ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
 
                     <form method="POST" style="margin-top:10px;">
 
