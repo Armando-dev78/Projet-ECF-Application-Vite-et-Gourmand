@@ -42,8 +42,8 @@ header {
 }
 
 .header-container {
-    max-width: 1400px;
-    margin: 0 auto;
+    width: 100%;
+    padding: 0 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -72,6 +72,7 @@ header {
     align-items: center;
     gap: 25px;
     flex-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .main-nav a {
@@ -79,6 +80,7 @@ header {
     font-size: 20px;
     color: #FFFFFF;
     text-decoration: none;
+    display: inline-block;
 }
 
 .main-nav a:hover {
