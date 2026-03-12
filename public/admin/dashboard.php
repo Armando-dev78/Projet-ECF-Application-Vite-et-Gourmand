@@ -13,6 +13,17 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
 $database = new Database();
 $db = $database->getConnection();
 
+// Commandes par mois
+$stmt = $db->query("
+SELECT DATE_FORMAT(created_at,'%Y-%m') as mois,
+COUNT(*) as total
+FROM commandes
+GROUP BY mois
+ORDER BY mois
+");
+
+$stats_commandes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 /* nombre total de commandes */
 $totalCommandes = $db->query("
     SELECT COUNT(*) FROM commandes
@@ -60,6 +71,16 @@ $chiffreAffaires = $db->query("
         <p><strong>Commandes livrées :</strong> <?= $commandesLivrees ?></p>
 
         <p><strong>Chiffre d'affaires :</strong> <?= number_format($chiffreAffaires, 2) ?> €</p>
+
+        <h3>Commandes par mois</h3>
+
+        <ul>
+            <?php foreach ($stats_commandes as $s): ?>
+                <li>
+                    <?= htmlspecialchars($s['mois']) ?> : <?= $s['total'] ?> commandes
+                </li>
+            <?php endforeach; ?>
+        </ul>
 
         <a href="../index.php">← Retour accueil</a>
 
