@@ -1,5 +1,6 @@
 <?php
 session_start();
+session_regenerate_id(true);
 
 require_once __DIR__ . '/../config/Database.php';
 

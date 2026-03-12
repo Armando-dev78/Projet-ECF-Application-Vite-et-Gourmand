@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 require_once __DIR__ . '/../config/Database.php';
 
 use App\Config\Database;
@@ -31,6 +35,14 @@ $distance_km = 0;
 $action = '';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    // Vérification CSRF
+    if (
+        !isset($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die("Requête invalide.");
+    }
+
     $action = $_POST['action'] ?? '';
 
     $nb_personnes = (int) $_POST['nb_personnes'];
@@ -180,6 +192,8 @@ if (!$menu) {
             <input type="text" name="ville" placeholder="Ville" required>
 
             <input type="number" step="0.1" name="distance_km" placeholder="Distance depuis Bordeaux (km)">
+
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
             <button type="submit" name="action" value="calculer">Calculer le prix</button>
             <button type="submit" name="action" value="valider">Valider la commande</button>
