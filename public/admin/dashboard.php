@@ -47,6 +47,32 @@ $commandesLivrees = $db->query("
 $chiffreAffaires = $db->query("
     SELECT SUM(total) FROM commandes
 ")->fetchColumn();
+
+/* chiffre d'affaires par mois */
+
+$stmt = $db->query("
+SELECT DATE_FORMAT(created_at,'%Y-%m') as mois,
+SUM(total) as chiffre
+FROM commandes
+GROUP BY mois
+ORDER BY mois
+");
+
+$stats_ca = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+/* menu le plus commandé */
+
+$stmt = $db->query("
+SELECT m.nom, COUNT(*) as total
+FROM commandes c
+JOIN menus m ON c.menu_id = m.id
+GROUP BY c.menu_id
+ORDER BY total DESC
+LIMIT 1
+");
+
+$menu_populaire = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -81,6 +107,23 @@ $chiffreAffaires = $db->query("
                 </li>
             <?php endforeach; ?>
         </ul>
+
+        <h3>Chiffre d'affaires par mois</h3>
+
+        <ul>
+            <?php foreach ($stats_ca as $s): ?>
+                <li>
+                    <?= htmlspecialchars($s['mois']) ?> : <?= number_format($s['chiffre'], 2) ?> €
+                </li>
+            <?php endforeach; ?>
+        </ul>
+
+
+        <h3>Menu le plus commandé</h3>
+
+        <p>
+            <?= htmlspecialchars($menu_populaire['nom']) ?> (<?= $menu_populaire['total'] ?> commandes)
+        </p>
 
         <a href="../index.php">← Retour accueil</a>
 
