@@ -90,13 +90,29 @@ $menu_populaire = $stmt->fetch(PDO::FETCH_ASSOC);
 
         <h2>Tableau de bord administrateur</h2>
 
-        <p><strong>Total commandes :</strong> <?= $totalCommandes ?></p>
+        <div class="dashboard-stats">
 
-        <p><strong>Commandes en attente :</strong> <?= $commandesAttente ?></p>
+            <div class="dashboard-card">
+                <h3>Total commandes</h3>
+                <p><?= $totalCommandes ?></p>
+            </div>
 
-        <p><strong>Commandes livrées :</strong> <?= $commandesLivrees ?></p>
+            <div class="dashboard-card">
+                <h3>Commandes en attente</h3>
+                <p><?= $commandesAttente ?></p>
+            </div>
 
-        <p><strong>Chiffre d'affaires :</strong> <?= number_format($chiffreAffaires, 2) ?> €</p>
+            <div class="dashboard-card">
+                <h3>Commandes livrées</h3>
+                <p><?= $commandesLivrees ?></p>
+            </div>
+
+            <div class="dashboard-card">
+                <h3>Chiffre d'affaires</h3>
+                <p><?= number_format($chiffreAffaires, 2) ?> €</p>
+            </div>
+
+        </div>
 
         <h3>Commandes par mois</h3>
 
