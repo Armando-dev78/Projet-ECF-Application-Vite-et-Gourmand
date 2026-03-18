@@ -269,6 +269,12 @@ align-items:flex-end;
 margin-bottom:25px;
 }
 
+.filtres-menus > div{
+display:flex;
+flex-direction:column;
+min-width:180px;
+}
+
 .filtres-menus label{
 font-size:14px;
 display:block;
