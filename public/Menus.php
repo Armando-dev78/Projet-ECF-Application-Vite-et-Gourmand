@@ -69,45 +69,51 @@ $menus = $controller->index();
     <!-- Filtre par thème (exigence ECF) -->
     <section>
 
-        <label for="theme">Filtrer par thème :</label>
-        <select id="theme">
-            <option value="">-- Tous les thèmes --</option>
-            <option value="mariage">Mariage</option>
-            <option value="noel">Noël</option>
-            <option value="paques">Pâques</option>
-            <option value="entreprise">Entreprise</option>
-            <option value="boisson">Boisson</option>
-        </select>
+        <form class="filtres-menus">
 
-        <br><br>
+            <div>
+                <label for="theme">Filtrer par thème :</label>
+                <select id="theme">
+                    <option value="">-- Tous les thèmes --</option>
+                    <option value="mariage">Mariage</option>
+                    <option value="noel">Noël</option>
+                    <option value="paques">Pâques</option>
+                    <option value="entreprise">Entreprise</option>
+                    <option value="boisson">Boisson</option>
+                </select>
+            </div>
 
-        <!-- Filtre par nombre minimum de personnes (exigence ECF) -->
-        <label for="minPersons">Nombre minimum de personnes :</label>
-        <input type="number" id="minPersons" min="1" value="1">
+            <!-- Filtre par nombre minimum de personnes (exigence ECF) -->
+            <div>
+                <label for="minPersons">Nombre minimum de personnes :</label>
+                <input type="number" id="minPersons" min="1" value="1">
+            </div>
 
-        <br><br>
+            <!-- Filtre par prix maximum de personnes (exigence ECF) -->
+            <div>
+                <label for="maxPrice">Prix maximum (€) :</label>
+                <input type="number" id="maxPrice" min="0" step="1">
+            </div>
 
-        <!-- Filtre par prix maximum de personnes (exigence ECF) -->
-        <label for="maxPrice">Prix maximum (€) :</label>
-        <input type="number" id="maxPrice" min="0" step="1">
+            <!-- Filtre par fourchette de prix (exigence ECF) -->
+            <div>
+                <label>Fourchette de prix (€) :</label>
+                <input type="number" id="minPrice" placeholder="Min">
+                <input type="number" id="maxPriceRange" placeholder="Max">
+            </div>
 
-        <br><br>
+            <!-- Filtre par régime (exigence ECF) -->
+            <div>
+                <label for="regime">Régime :</label>
+                <select id="regime">
+                    <option value="">-- Tous les régimes --</option>
+                    <option value="classique">Classique</option>
+                    <option value="vegetarien">Végétarien</option>
+                    <option value="vegan">Vegan</option>
+                </select>
+            </div>
 
-        <!-- Filtre par fourchette de prix (exigence ECF) -->
-        <label>Fourchette de prix (€) :</label>
-        <input type="number" id="minPrice" min="0" placeholder="Min">
-        <input type="number" id="maxPriceRange" min="0" placeholder="Max">
-
-        <br><br>
-
-        <!-- Filtre par régime (exigence ECF) -->
-        <label for="regime">Régime :</label>
-        <select id="regime">
-            <option value="">-- Tous les régimes --</option>
-            <option value="classique">Classique</option>
-            <option value="vegetarien">Végétarien</option>
-            <option value="vegan">Vegan</option>
-        </select>
+        </form>
 
     </section>
 
