@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 require_once __DIR__ . '/../config/Database.php';
 
 use App\Config\Database;
@@ -9,6 +14,13 @@ $db = $database->getConnection();
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    if (
+        !isset($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die("Requête invalide.");
+    }
 
     $nom = trim($_POST["nom"]);
     $prenom = trim($_POST["prenom"]);
@@ -70,6 +82,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <form method="POST" class="auth-form" autocomplete="off">
 
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+
             <input type="text" name="nom" placeholder="Nom" required>
 
             <input type="text" name="prenom" placeholder="Prénom" required>
@@ -101,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
     </script>
-    
+
 </body>
 
 </html>
