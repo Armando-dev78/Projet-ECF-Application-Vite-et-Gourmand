@@ -5,7 +5,7 @@
 document.getElementById("theme").addEventListener("change", function () {
 const theme = this.value;
 
-fetch(`index.php?action=filter-theme&theme=${theme}`)
+fetch(`menus.php?action=filter-theme&theme=${theme}`)
     .then((response) => response.json())
     .then((menus) => {
     const container = document.getElementById("menus-container");
@@ -36,7 +36,7 @@ fetch(`index.php?action=filter-theme&theme=${theme}`)
 document.getElementById("minPersons").addEventListener("input", function () {
 const minPersons = this.value;
 
-fetch(`index.php?action=filter-min-persons&minPersons=${minPersons}`)
+fetch(`menus.php?action=filter-min-persons&minPersons=${minPersons}`)
     .then((response) => response.json())
     .then((menus) => {
     const container = document.getElementById("menus-container");
@@ -68,7 +68,7 @@ document.getElementById("maxPrice").addEventListener("input", function () {
 const maxPrice = this.value;
 
 if (maxPrice === "") {
-    fetch(`index.php`)
+    fetch(`menus.php`)
     .then((response) => response.text())
     .then((html) => {
         document.open();
@@ -78,7 +78,7 @@ if (maxPrice === "") {
     return;
 }
 
-fetch(`index.php?action=filter-max-price&maxPrice=${maxPrice}`)
+fetch(`menus.php?action=filter-max-price&maxPrice=${maxPrice}`)
     .then((response) => response.json())
     .then((menus) => {
     const container = document.getElementById("menus-container");
@@ -110,7 +110,7 @@ fetch(`index.php?action=filter-max-price&maxPrice=${maxPrice}`)
 document.getElementById("regime").addEventListener("change", function () {
 const regime = this.value;
 
-fetch(`index.php?action=filter-regime&regime=${regime}`)
+fetch(`menus.php?action=filter-regime&regime=${regime}`)
     .then((response) => response.json())
     .then((menus) => {
     const container = document.getElementById("menus-container");
@@ -147,7 +147,7 @@ function filterByPriceRange() {
         return;
     }
 
-    fetch(`index.php?action=filter-price-range&minPrice=${min}&maxPrice=${max}`)
+    fetch(`menus.php?action=filter-price-range&minPrice=${min}&maxPrice=${max}`)
         .then(response => response.json())
         .then(menus => {
             const container = document.getElementById("menus-container");
