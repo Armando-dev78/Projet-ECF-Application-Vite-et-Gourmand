@@ -1,193 +1,125 @@
-/**
- * Filtre par thème
- * Actualisation dynamique des menus sans rechargement
- */
-document.getElementById("theme").addEventListener("change", function () {
-const theme = this.value;
+// ================= AFFICHAGE MENUS =================
+function afficherMenus(menus) {
+  const container = document.getElementById("menus-container");
+  container.innerHTML = "";
 
-fetch(`menus.php?action=filter-theme&theme=${theme}`)
-    .then((response) => response.json())
-    .then((menus) => {
-    const container = document.getElementById("menus-container");
-    container.innerHTML = "";
-
-    if (menus.length === 0) {
-        container.innerHTML = "<p>Aucun menu trouvé.</p>";
-        return;
-    }
-
-    menus.forEach((menu) => {
-        container.innerHTML += `
-                    <article>
-                        <h2>${menu.nom}</h2>
-                        <p>${menu.description}</p>
-                        <p><strong>${menu.prix_par_personne} €</strong> / personne</p>
-                        <p>Minimum ${menu.nb_personnes_min} personnes</p>
-                        <hr>
-                    </article>
-                `;
-    });
-    });
-});
-
-/**
- * Filtre par nombre minimum de personnes
- */
-document.getElementById("minPersons").addEventListener("input", function () {
-const minPersons = this.value;
-
-fetch(`menus.php?action=filter-min-persons&minPersons=${minPersons}`)
-    .then((response) => response.json())
-    .then((menus) => {
-    const container = document.getElementById("menus-container");
-    container.innerHTML = "";
-
-    if (menus.length === 0) {
-        container.innerHTML = "<p>Aucun menu trouvé.</p>";
-        return;
-    }
-
-    menus.forEach((menu) => {
-        container.innerHTML += `
-                    <article>
-                        <h2>${menu.nom}</h2>
-                        <p>${menu.description}</p>
-                        <p><strong>${menu.prix_par_personne} €</strong> / personne</p>
-                        <p>Minimum ${menu.nb_personnes_min} personnes</p>
-                        <hr>
-                    </article>
-                `;
-    });
-    });
-});
-
-/**
- * Filtre par prix maximum
- */
-document.getElementById("maxPrice").addEventListener("input", function () {
-const maxPrice = this.value;
-
-if (maxPrice === "") {
-    fetch(`menus.php`)
-    .then((response) => response.text())
-    .then((html) => {
-        document.open();
-        document.write(html);
-        document.close();
-    });
+  if (menus.length === 0) {
+    container.innerHTML = "<p>Aucun menu trouvé.</p>";
     return;
+  }
+
+  menus.forEach((menu) => {
+    container.innerHTML += `
+            <article class="menu-card">
+
+                <img 
+                    src="images/menus/menu_${menu.id}.jpg" 
+                    alt="${menu.nom}" 
+                    class="menu-image">
+
+                <div class="menu-content">
+                    <h2>${menu.nom}</h2>
+
+                    <p>${menu.description}</p>
+
+                    <p>
+                        <strong>${menu.prix_par_personne} €</strong> / personne
+                    </p>
+
+                    <p>
+                        Minimum ${menu.nb_personnes_min} personnes
+                    </p>
+
+                    <a href="menu.php?id=${menu.id}" class="btn-details">
+                        Voir le détail
+                    </a>
+                </div>
+
+            </article>
+        `;
+  });
 }
 
-fetch(`menus.php?action=filter-max-price&maxPrice=${maxPrice}`)
-    .then((response) => response.json())
-    .then((menus) => {
-    const container = document.getElementById("menus-container");
-    container.innerHTML = "";
+// ================= FILTRE THÈME =================
+const themeSelect = document.getElementById("theme");
 
-    if (menus.length === 0) {
-        container.innerHTML = "<p>Aucun menu trouvé.</p>";
-        return;
+if (themeSelect) {
+  themeSelect.addEventListener("change", function () {
+    fetch(`menus.php?action=filter-theme&theme=${this.value}`)
+      .then((res) => res.json())
+      .then((menus) => afficherMenus(menus));
+  });
+}
+
+// ================= FILTRE MIN PERSONNES =================
+const minPersons = document.getElementById("minPersons");
+
+if (minPersons) {
+  minPersons.addEventListener("input", function () {
+    fetch(`menus.php?action=filter-min-persons&minPersons=${this.value}`)
+      .then((res) => res.json())
+      .then((menus) => afficherMenus(menus));
+  });
+}
+
+// ================= FILTRE PRIX MAX =================
+const maxPrice = document.getElementById("maxPrice");
+
+if (maxPrice) {
+  maxPrice.addEventListener("input", function () {
+    if (this.value === "") {
+      fetch(`menus.php?action=filter-theme&theme=`)
+        .then((res) => res.json())
+        .then((menus) => afficherMenus(menus));
+      return;
     }
 
-    menus.forEach((menu) => {
-        container.innerHTML += `
-                    <article>
-                        <h2>${menu.nom}</h2>
-                        <p>${menu.description}</p>
-                        <p><strong>${menu.prix_par_personne} €</strong> / personne</p>
-                        <p>Minimum ${menu.nb_personnes_min} personnes</p>
-                        <hr>
-                    </article>
-                `;
-    });
-    });
-});
+    fetch(`menus.php?action=filter-max-price&maxPrice=${this.value}`)
+      .then((res) => res.json())
+      .then((menus) => afficherMenus(menus));
+  });
+}
 
-/**
- * Filtre par régime alimentaire
- * (classique, vegetarien, vegan)
- */
-document.getElementById("regime").addEventListener("change", function () {
-const regime = this.value;
+// ================= FILTRE RÉGIME =================
+const regime = document.getElementById("regime");
 
-fetch(`menus.php?action=filter-regime&regime=${regime}`)
-    .then((response) => response.json())
-    .then((menus) => {
-    const container = document.getElementById("menus-container");
-    container.innerHTML = "";
+if (regime) {
+  regime.addEventListener("change", function () {
+    fetch(`menus.php?action=filter-regime&regime=${this.value}`)
+      .then((res) => res.json())
+      .then((menus) => afficherMenus(menus));
+  });
+}
 
-    if (menus.length === 0) {
-        container.innerHTML = "<p>Aucun menu trouvé.</p>";
-        return;
-    }
+// ================= FILTRE FOURCHETTE =================
+const minPrice = document.getElementById("minPrice");
+const maxPriceRange = document.getElementById("maxPriceRange");
 
-    menus.forEach((menu) => {
-        container.innerHTML += `
-                    <article>
-                        <h2>${menu.nom}</h2>
-                        <p>${menu.description}</p>
-                        <p><strong>${menu.prix_par_personne} €</strong> / personne</p>
-                        <p>Minimum ${menu.nb_personnes_min} personnes</p>
-                        <hr>
-                    </article>
-                `;
-    });
-    });
-});
-
-/**
- * Filtre par fourchette de prix
- * Actualisation dynamique des menus (AJAX)
- */
 function filterByPriceRange() {
-    const min = document.getElementById("minPrice").value;
-    const max = document.getElementById("maxPriceRange").value;
+  if (!minPrice || !maxPriceRange) return;
 
-    if (min === "" || max === "") {
-        return;
-    }
+  if (minPrice.value === "" || maxPriceRange.value === "") return;
 
-    fetch(`menus.php?action=filter-price-range&minPrice=${min}&maxPrice=${max}`)
-        .then(response => response.json())
-        .then(menus => {
-            const container = document.getElementById("menus-container");
-            container.innerHTML = "";
-
-            if (menus.length === 0) {
-                container.innerHTML = "<p>Aucun menu trouvé.</p>";
-                return;
-            }
-
-            menus.forEach(menu => {
-                container.innerHTML += `
-                    <article>
-                        <h2>${menu.nom}</h2>
-                        <p>${menu.description}</p>
-                        <p><strong>${menu.prix_par_personne} €</strong> / personne</p>
-                        <p>Minimum ${menu.nb_personnes_min} personnes</p>
-                        <hr>
-                    </article>
-                `;
-            });
-        });
+  fetch(
+    `menus.php?action=filter-price-range&minPrice=${minPrice.value}&maxPrice=${maxPriceRange.value}`,
+  )
+    .then((res) => res.json())
+    .then((menus) => afficherMenus(menus));
 }
 
-document.getElementById("minPrice").addEventListener("input", filterByPriceRange);
-document.getElementById("maxPriceRange").addEventListener("input", filterByPriceRange);
+if (minPrice) minPrice.addEventListener("input", filterByPriceRange);
+if (maxPriceRange) maxPriceRange.addEventListener("input", filterByPriceRange);
 
-/**
- * Carrousel automatique page d’accueil
- * Exécuté après chargement complet du DOM
- */
+// ================= CAROUSEL =================
 document.addEventListener("DOMContentLoaded", () => {
-    let currentSlide = 0;
-    const slides = document.querySelectorAll("#carousel img");
+  let currentSlide = 0;
+  const slides = document.querySelectorAll("#carousel img");
 
-    if (slides.length === 0) return;
+  if (slides.length === 0) return;
 
-    setInterval(() => {
-        slides[currentSlide].classList.remove("active");
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add("active");
-    }, 3000); // 3 secondes (plus fluide que 4)
+  setInterval(() => {
+    slides[currentSlide].classList.remove("active");
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add("active");
+  }, 3000);
 });
