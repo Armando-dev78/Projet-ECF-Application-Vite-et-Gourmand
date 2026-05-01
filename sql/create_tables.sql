@@ -19,6 +19,7 @@ CREATE TABLE menus (
     prix_par_personne DECIMAL(8,2) NOT NULL,
     delai_commande_jours INT NOT NULL,
     stock_disponible INT NOT NULL DEFAULT 0
+    regime ENUM('classique', 'vegetarien', 'vegan') NOT NULL DEFAULT 'classique'
 );
 
 -- Plats composant les menus
