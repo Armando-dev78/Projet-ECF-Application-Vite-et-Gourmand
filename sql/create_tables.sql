@@ -18,7 +18,7 @@ CREATE TABLE menus (
     nb_personnes_min INT NOT NULL,
     prix_par_personne DECIMAL(8,2) NOT NULL,
     delai_commande_jours INT NOT NULL,
-    stock_disponible INT NOT NULL DEFAULT 0
+    stock_disponible INT NOT NULL DEFAULT 0,
     regime ENUM('classique', 'vegetarien', 'vegan') NOT NULL DEFAULT 'classique'
 );
 
@@ -62,7 +62,14 @@ CREATE TABLE commandes (
     nb_personnes INT NOT NULL,
     total DECIMAL(8,2) NOT NULL,
     reduction DECIMAL(8,2) DEFAULT 0,
+
+    date_prestation DATE NOT NULL,
+    heure_livraison TIME NOT NULL,
+    adresse_livraison TEXT NOT NULL,
+    ville VARCHAR(100) NOT NULL,
+
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (menu_id) REFERENCES menus(id)
 );

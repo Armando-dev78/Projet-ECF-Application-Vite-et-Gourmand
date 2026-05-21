@@ -1,7 +1,8 @@
 -- Comptes internes
 INSERT INTO users (nom, prenom, email, password, role) VALUES
-('Gomez', 'José', 'jose@vitegourmand.fr', '$2y$10$hashadmin', 'admin'),
-('Martin', 'Julie', 'julie@vitegourmand.fr', '$2y$10$hashemploye', 'employe');
+('Gomez', 'José', 'jose@vitegourmand.fr', '$2y$10$8PV/5IjlRcdAgGrAu9Y7Xu4nlLp.P69iI.KRGTqMoVUrR0nG4YPO6', 'admin'),
+('Martin', 'Julie', 'julie@vitegourmand.fr', '$2y$10$q0K4qr7AnR9dr.t4/5X/r.DNXM0Tf/dNbZoMBgk6oUiw4zrywbmcm', 'employe'),
+('Client', 'Test', 'client@test.com', '$2y$10$7p8lQDcs9lqToNv.Zb6nOOs.kXlcwzfSXZd.WODzTiYCdTZ6SUyWy', 'utilisateur');
 
 -- Menus événementiels
 INSERT INTO menus (nom, description, theme, nb_personnes_min, prix_par_personne, delai_commande_jours, stock_disponible) VALUES
