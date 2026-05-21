@@ -19,13 +19,13 @@ $user_id = $_SESSION['user']['id'];
 // ================= RÉCUPÉRATION DES COMMANDES =================
 // On récupère les commandes de l'utilisateur connecté
 $stmt = $db->prepare("
-    SELECT 
-        c.id,
-        m.nom AS menu_nom,
-        c.nb_personnes,
-        c.total,
-        c.date_prestation,
-        c.created_at
+    SELECT
+    c.id,
+    m.nom AS menu_nom,
+    c.nb_personnes,
+    c.total,
+    c.date_prestation,
+    c.created_at
     FROM commandes c
     JOIN menus m ON c.menu_id = m.id
     WHERE c.user_id = ?

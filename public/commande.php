@@ -20,6 +20,11 @@ $user = $_SESSION['user'];
 $errors = [];
 $success = false;
 
+$prix_base = 0;
+$reduction = 0;
+$livraison = 0;
+$total = 0;
+
 if (!isset($_GET['menu_id'])) {
     die("Menu non spécifié.");
 }

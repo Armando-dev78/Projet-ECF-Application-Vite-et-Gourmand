@@ -137,9 +137,17 @@ $menu_populaire = $stmt->fetch(PDO::FETCH_ASSOC);
 
         <h3>Menu le plus commandé</h3>
 
-        <p>
-            <?= htmlspecialchars($menu_populaire['nom']) ?> (<?= $menu_populaire['total'] ?> commandes)
-        </p>
+        <?php if ($menu_populaire): ?>
+
+            <p>
+                <?= htmlspecialchars($menu_populaire['nom']) ?> (<?= $menu_populaire['total'] ?> commandes)
+            </p>
+
+        <?php else: ?>
+
+            <p>Aucune commande enregistrée.</p>
+
+        <?php endif; ?>
 
         <a href="../index.php">← Retour accueil</a>
 
