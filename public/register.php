@@ -24,9 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $nom = trim($_POST["nom"]);
     $prenom = trim($_POST["prenom"]);
-    $gsm = trim($_POST["gsm"]);
     $email = trim($_POST["email"]);
-    $adresse = trim($_POST["adresse"]);
     $password = $_POST["password"];
 
     // Validation mot de passe ECF
@@ -42,16 +40,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $stmt = $db->prepare("INSERT INTO users (nom, prenom, gsm, email, adresse, password, role) 
-                        VALUES (?, ?, ?, ?, ?, ?, 'utilisateur')");
+        $stmt = $db->prepare("INSERT INTO users (nom, prenom, email, password, role) 
+VALUES (?, ?, ?, ?, 'utilisateur')");
 
         try {
-            $stmt->execute([$nom, $prenom, $gsm, $email, $adresse, $hashedPassword]);
+            $stmt->execute([$nom, $prenom, $email, $hashedPassword]);
             $_SESSION["success"] = "Compte créé avec succès.";
             header("Location: login.php");
             exit;
         } catch (PDOException $e) {
-            $errors[] = "Cet email est déjà utilisé.";
+            $errors[] = $e->getMessage();
         }
     }
 }
@@ -88,12 +86,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <input type="text" name="prenom" placeholder="Prénom" required>
 
-            <input type="text" name="gsm" placeholder="GSM" required>
-
             <input type="email" name="email" placeholder="Email" required autocomplete="off">
-
-            <textarea name="adresse" placeholder="Adresse" required></textarea>
-
+            
             <div style="position:relative;">
                 <input type="password" name="password" id="password" placeholder="Mot de passe sécurisé" required autocomplete="new-password">
                 <span onclick="togglePassword()" style="position:absolute; right:15px; top:12px; cursor:pointer;">👁</span>
